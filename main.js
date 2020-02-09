@@ -108,6 +108,23 @@ function deletePlayer(e) {
   }
 }
 
+// REMOVE PLAYERS FROM LOCAL STORAGE
+
+function removePlayerFromLocalStorage(playerItem) {
+  let players;
+  if (localStorage.getItem("players") === null) {
+    players = [];
+  } else {
+    players = JSON.parse(localStorage.getItem("players"));
+  }
+  players.forEach((player, index) => {
+    if (playerItem.textContent === player) {
+      player.splice(index, 1);
+    }
+  });
+  localStorage.setItem("players", JSON.stringify(players));
+}
+
 // SEARCH PLAYER
 function searchPlayer(e) {
   // Convert text value to lower case
