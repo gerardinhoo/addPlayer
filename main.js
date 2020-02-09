@@ -3,6 +3,9 @@ const form = document.querySelector("#addForm");
 const playerList = document.querySelector("#items");
 const filterPlayer = document.querySelector("#filter");
 
+// DOM LOAD EVENT
+document.addEventListener("DOMContentLoaded", getPlayers);
+
 // FORM SUBMIT EVENT
 form.addEventListener("submit", addPlayer);
 
@@ -11,6 +14,40 @@ playerList.addEventListener("click", deletePlayer);
 
 // FILTER EVENT
 filterPlayer.addEventListener("keyup", searchPlayer);
+
+// GET PLAYERS FROM LOCAL STORAGE
+function getPlayers() {
+  let players;
+  if (localStorage.getItem("players") === null) {
+    players = [];
+  } else {
+    players = JSON.parse(localStorage.getItem("players"));
+  }
+
+  players.forEach(function(player) {
+    // CREATE NEW ELEMENT LI
+    let li = document.createElement("li");
+    // ADD CLASS
+    li.className = "list-group-item";
+    // ADD TEXT NODE WITH INPUT VALUE
+    li.appendChild(document.createTextNode(player));
+
+    // CREATE DELETE BUTTON
+    let deleteButton = document.createElement("button");
+
+    // ADD CLASSES TO DELETE BUTTON
+    deleteButton.className = "btn btn-danger btn-sm float-right delete";
+
+    // APPEND TEXT NODE
+    deleteButton.appendChild(document.createTextNode("X"));
+
+    // APPEND DELETE BUTTON TO LI
+    li.appendChild(deleteButton);
+
+    // APPEND LI TO LIST
+    playerList.appendChild(li);
+  });
+}
 
 function addPlayer(e) {
   e.preventDefault();
@@ -41,15 +78,32 @@ function addPlayer(e) {
 
   // APPEND LI TO LIST
   playerList.appendChild(li);
+
+  // PERSIST DATA IN LOCAL STORAGE
+  playerLocalStorage(newPlayer);
+}
+
+// STORE PLAYER
+function playerLocalStorage(player) {
+  let players;
+  if (localStorage.getItem("players") === null) {
+    players = [];
+  } else {
+    players = JSON.parse(localStorage.getItem("players"));
+  }
+  players.push(player);
+
+  localStorage.setItem("players", JSON.stringify(players));
 }
 
 // DELETE PLAYERS
-
 function deletePlayer(e) {
   if (e.target.classList.contains("delete")) {
     if (confirm("Are you sure you want to remove it?")) {
       let li = e.target.parentElement;
       playerList.removeChild(li);
+      // REMOVE FROM LOCAL STORAGE
+      removePlayerFromLocalStorage(li);
     }
   }
 }
