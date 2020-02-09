@@ -91,6 +91,7 @@ function playerLocalStorage(player) {
   } else {
     players = JSON.parse(localStorage.getItem("players"));
   }
+
   players.push(player);
 
   localStorage.setItem("players", JSON.stringify(players));
@@ -109,7 +110,6 @@ function deletePlayer(e) {
 }
 
 // REMOVE PLAYERS FROM LOCAL STORAGE
-
 function removePlayerFromLocalStorage(playerItem) {
   let players;
   if (localStorage.getItem("players") === null) {
@@ -117,6 +117,7 @@ function removePlayerFromLocalStorage(playerItem) {
   } else {
     players = JSON.parse(localStorage.getItem("players"));
   }
+
   players.forEach((player, index) => {
     if (playerItem.textContent === player) {
       player.splice(index, 1);
