@@ -24,7 +24,7 @@ function getPlayers() {
     players = JSON.parse(localStorage.getItem("players"));
   }
 
-  players.forEach(function(player) {
+  players.forEach(function (player) {
     // CREATE NEW ELEMENT LI
     let li = document.createElement("li");
     // ADD CLASS
@@ -100,7 +100,7 @@ function playerLocalStorage(player) {
 // DELETE PLAYERS
 function deletePlayer(e) {
   if (e.target.classList.contains("delete")) {
-    if (confirm("Are you sure you want to remove it?")) {
+    if (confirm("Are you sure you want to remove this player?")) {
       let li = e.target.parentElement;
       playerList.removeChild(li);
       // REMOVE FROM LOCAL STORAGE
